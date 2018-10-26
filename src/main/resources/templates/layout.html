@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>Layout</title>
+    <link rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}"
+          href="../../css/bootstrap.min.css"/>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <a class="brand"
+               href="/flowable">Flowable</a>
+            <ul class="nav">
+                <li>
+                    <a href="/flowable/engine/info" target="_blank">引擎信息</a>
+                </li>
+                <li>
+                    <a href="/flowable/process-list">流程定义</a>
+                </li>
+                <li>
+                    <a href="/flowable/task-list">任务列表</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <h1 layout:fragment="header"></h1>
+    <div layout:fragment="content">
+    </div>
+</div>
+</body>
+</html>

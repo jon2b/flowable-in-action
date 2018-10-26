@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div layout:fragment="content" class="container">
+    <fieldset id="deployFieldset">
+        <legend>部署流程资源</legend>
+        <span class="alert alert-info"><b>支持文件格式：</b>zip、bar、bpmn、bpmn20.xml</span>
+        <form action="/flowable/deploy" method="post" enctype="multipart/form-data" style="margin-top:1em;">
+            <input type="file" name="file"/>
+            <input type="submit" value="Submit" class="btn"/>
+        </form>
+        <hr class="soften"/>
+    </fieldset>
+
+    <script>
+
+
+    </script>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>流程定义ID</th>
+                <th>流程定义NAME</th>
+                <th>流程定义Key</th>
+                <th>版本号Version</th>
+                <th>部署ID</th>
+                <th>XML资源名称</th>
+                <th>图片资源名称</th>
+                <th colspan="2">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${processes.empty}">
+                <td colspan="9">
+                    No messages
+                </td>
+            </tr>
+            <tr th:each="process : ${processes}">
+                <td th:text="${process.id}"></td>
+                <td th:text="${process.name}"></td>
+                <td th:text="${process.key}"></td>
+                <td th:text="${process.version}"></td>
+                <td th:text="${process.deploymentId}"></td>
+                <td th:text="${process.resourceName}"></td>
+                <td th:text="${process.diagramResourceName}"></td>
+                <td>
+                    <a th:href="@{'/flowable/process/start/' + ${process.id}}">启动</a>
+                    <a th:href="@{'/flowable/process/delete-deployment/' + ${process.deploymentId}}">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
