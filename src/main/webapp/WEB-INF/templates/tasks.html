@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org">
+      <!--xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"-->
+      <!--layout:decorator="layout">-->
 <head>
     <title>任务列表</title>
     <meta charset="UTF-8">
 </head>
 <body>
-<h1 layout:fragment="header">任务列表</h1>
-<div layout:fragment="content" class="container">
+<!--<h1 layout:fragment="header">任务列表</h1>-->
+<!--<div layout:fragment="content" class="container">-->
+<div th:include="templates/layout :: html"></div>
+<div class="container">
+    <h2>任务列表</h2><br>
     <table class="table table-bordered table-striped">
         <thead>
         <tr>

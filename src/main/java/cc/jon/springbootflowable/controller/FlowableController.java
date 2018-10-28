@@ -1,10 +1,7 @@
 package cc.jon.springbootflowable.controller;
 
 import org.apache.commons.io.FilenameUtils;
-import org.flowable.engine.ManagementService;
-import org.flowable.engine.RepositoryService;
-import org.flowable.engine.RuntimeService;
-import org.flowable.engine.TaskService;
+import org.flowable.engine.*;
 import org.flowable.engine.repository.DeploymentBuilder;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
@@ -14,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,9 +46,23 @@ public class FlowableController {
     @Autowired
     TaskService taskService;
 
+    @Autowired
+    HistoryService historyService;
+
+    @Autowired
+    FormService formService;
+
+    @Autowired
+    IdentityService identityService;
+
     @RequestMapping("")
     public String index() {
-        return "layout";
+        return "templates/layout";
+    }
+
+    @RequestMapping("/testJsp")
+    public String testJsp() {
+        return "index";
     }
 
     @ResponseBody
@@ -111,7 +119,7 @@ public class FlowableController {
      */
     @RequestMapping("/process-list")
     public ModelAndView processes() {
-        ModelAndView mav = new ModelAndView("processes");
+        ModelAndView mav = new ModelAndView("templates/processes");
         List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().list();
 
         mav.addObject("processes", list);
@@ -123,7 +131,7 @@ public class FlowableController {
      */
     @RequestMapping("/task-list")
     public ModelAndView tasks() {
-        ModelAndView mav = new ModelAndView("tasks");
+        ModelAndView mav = new ModelAndView("templates/tasks");
         List<Task> list = taskService.createTaskQuery().list();
         mav.addObject("tasks", list);
         return mav;
@@ -138,7 +146,7 @@ public class FlowableController {
         Map<String, Object> variables = new HashMap<>();
         variables.put("applyUser", "jiang");
         variables.put("days", 3);
-        variables.put("approved;", true);
+        variables.put("approved", true);
 
         taskService.complete(taskId, variables);
         return "redirect:/flowable/task-list";

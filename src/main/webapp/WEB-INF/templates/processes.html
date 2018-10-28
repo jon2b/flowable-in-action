@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout">
+      layout:decorator="static/templates/layout">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>流程列表</title>
 </head>
 <body>
-<div layout:fragment="content" class="container">
+<div th:include="templates/layout :: html"></div>
+<!--<div layout:fragment="content" class="container">-->
+<div class="container">
     <fieldset id="deployFieldset">
         <legend>部署流程资源</legend>
         <span class="alert alert-info"><b>支持文件格式：</b>zip、bar、bpmn、bpmn20.xml</span>
@@ -17,12 +19,7 @@
         </form>
         <hr class="soften"/>
     </fieldset>
-
-    <script>
-
-
-    </script>
-
+    <h2>流程列表</h2><br>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -52,6 +49,8 @@
                 <td th:text="${process.diagramResourceName}"></td>
                 <td>
                     <a th:href="@{'/flowable/process/start/' + ${process.id}}">启动</a>
+                </td>
+                <td>
                     <a th:href="@{'/flowable/process/delete-deployment/' + ${process.deploymentId}}">删除</a>
                 </td>
             </tr>
