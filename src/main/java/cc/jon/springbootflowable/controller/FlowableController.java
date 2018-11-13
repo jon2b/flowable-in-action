@@ -1,22 +1,30 @@
 package cc.jon.springbootflowable.controller;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.flowable.engine.*;
+import org.flowable.engine.history.HistoricActivityInstance;
+import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.DeploymentBuilder;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -188,5 +196,79 @@ public class FlowableController {
         }
     }
 
+    /**
+     * 已完成流程列表
+     */
+    @RequestMapping("/history-list")
+    public ModelAndView history() {
+        ModelAndView mav = new ModelAndView("templates/history");
+        List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery().finished().list();
+        mav.addObject("histories", list);
+        return mav;
+    }
+
+    /**
+     * 所有历史任务活动列表
+     */
+    @RequestMapping("/history-activities")
+    public ModelAndView historyAct() {
+        ModelAndView mav = new ModelAndView("templates/activities");
+        List<HistoricTaskInstance> list = historyService.createHistoricTaskInstanceQuery()
+                .orderByProcessInstanceId().asc()
+                .orderByTaskCreateTime().asc()
+                .list();
+        mav.addObject("activities", list);
+        return mav;
+    }
+
+    /**
+     * 历史任务活动列表
+     */
+    @RequestMapping("/history-activity")
+    public ModelAndView historyActByProcessInsId() {
+        ModelAndView mav = new ModelAndView("templates/activities");
+        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery().list();
+        mav.addObject("activities", list);
+        return mav;
+    }
+
+    /**
+     * 生成流程图
+     *
+     * @param deploymentId 任务ID
+     */
+    @RequestMapping(value = "/process/processDiagram/{deploymentId}")
+    public void genProcessDiagram(HttpServletResponse httpServletResponse, @PathVariable("deploymentId") String deploymentId) throws Exception {
+        List<String> names = repositoryService.getDeploymentResourceNames(deploymentId);
+        String imageName = "";
+        for (String name : names) {
+            if (name.indexOf(".png") >= 0) {
+                imageName = name;
+            }
+        }
+
+        if (!StringUtils.isEmpty(imageName)) {
+            byte[] buf = new byte[1024];
+            try (InputStream in = repositoryService.getResourceAsStream(deploymentId, imageName)) {
+                try (OutputStream out = httpServletResponse.getOutputStream()) {
+                    int length = 0;
+                    while ((length = in.read(buf)) != -1) {
+                        out.write(buf, 0, length);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * reassign
+     */
+    @RequestMapping("/reassign")
+    public ModelAndView reassignTask() {
+        ModelAndView mav = new ModelAndView("templates/activities");
+//        List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery().list();
+//        mav.addObject("activities", list);
+        return mav;
+    }
 
 }

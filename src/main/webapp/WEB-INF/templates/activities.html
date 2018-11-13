@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+      <!--xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"-->
+      <!--layout:decorator="layout">-->
+<head>
+    <title>历史任务列表</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<!--<h1 layout:fragment="header">任务列表</h1>-->
+<!--<div layout:fragment="content" class="container">-->
+<div th:include="templates/layout :: html"></div>
+<div class="container">
+    <h2>历史任务列表</h2><br>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <!--<td>历史活动ID</td>-->
+            <!--<td>流程定义ID</td>-->
+            <!--<td>流程实例ID</td>-->
+            <!--<td>任务ID</td>-->
+            <!--<td>任务Name</td>-->
+            <!--<td>任务Type</td>-->
+            <!--<td>处理人</td>-->
+            <!--<td>活动开始时间</td>-->
+            <!--<td>活动结束时间</td>-->
+            <!--<td>活动持续时间(millis)</td>-->
+
+            <td>任务ID</td>
+            <td>流程定义ID</td>
+            <td>流程实例ID</td>
+            <td>任务Name</td>
+            <td>处理人</td>
+            <td>活动开始时间</td>
+            <td>活动结束时间</td>
+            <td>活动持续时间(millis)</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${activities.empty}">
+            <td colspan="10">
+                No messages
+            </td>
+        </tr>
+        <tr th:each="activity : ${activities}">
+            <!--<td th:text="${activity.id}"></td>-->
+            <!--<td th:text="${activity.processDefinitionId}"></td>-->
+            <!--<td th:text="${activity.processInstanceId}"></td>-->
+            <!--<td th:text="${activity.taskId}"></td>-->
+            <!--<td th:text="${activity.activityName}"></td>-->
+            <!--<td th:text="${activity.activityType}"></td>-->
+            <!--<td th:text="${activity.assignee}"></td>-->
+            <!--<td th:text="${activity.startTime}"></td>-->
+            <!--<td th:text="${activity.endTime}"></td>-->
+            <!--<td th:text="${activity.durationInMillis}"></td>-->
+
+            <td th:text="${activity.id}"></td>
+            <td th:text="${activity.processDefinitionId}"></td>
+            <td th:text="${activity.processInstanceId}"></td>
+            <td th:text="${activity.name}"></td>
+            <td th:text="${activity.assignee}"></td>
+            <td th:text="${activity.startTime}"></td>
+            <td th:text="${activity.endTime}"></td>
+            <td th:text="${activity.durationInMillis}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</body>
+</html>

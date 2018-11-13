@@ -30,7 +30,7 @@
                 <th>部署ID</th>
                 <th>XML资源名称</th>
                 <th>图片资源名称</th>
-                <th colspan="2">操作</th>
+                <th colspan="3">操作</th>
             </tr>
         </thead>
         <tbody>
@@ -52,6 +52,9 @@
                 </td>
                 <td>
                     <a th:href="@{'/flowable/process/delete-deployment/' + ${process.deploymentId}}">删除</a>
+                </td>
+                <td>
+                    <a th:href="@{'/flowable/process/processDiagram/' + ${process.deploymentId}}">流程图</a>
                 </td>
             </tr>
         </tbody>

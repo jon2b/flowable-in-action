@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+      <!--xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"-->
+      <!--layout:decorator="layout">-->
+<head>
+    <title>历史流程列表</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<!--<h1 layout:fragment="header">任务列表</h1>-->
+<!--<div layout:fragment="content" class="container">-->
+<div th:include="templates/layout :: html"></div>
+<div class="container">
+    <h2>已完成流程列表</h2><br>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <td>历史流程ID</td>
+            <td>历史流程Name</td>
+            <td>流程实例ID</td>
+            <td>流程定义ID</td>
+            <td>流程定义Key</td>
+            <td>流程开始时间</td>
+            <td>流程结束时间</td>
+            <td>流程持续时间(min)</td>
+            <td>流程启动人</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${histories.empty}">
+            <td colspan="9">
+                No messages
+            </td>
+        </tr>
+        <tr th:each="history : ${histories}">
+            <td th:text="${history.id}"></td>
+            <td th:text="${history.name}"></td>
+            <td th:text="${history.processInstanceId}"></td>
+            <td th:text="${history.processDefinitionId}"></td>
+            <td th:text="${history.processDefinitionKey}"></td>
+            <td th:text="${history.startTime}"></td>
+            <td th:text="${history.endTime}"></td>
+            <td th:text="${history.durationInMillis}/1000/60"></td>
+            <td th:text="${history.startUserId}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+</body>
+</html>
