@@ -229,6 +229,7 @@ public class FlowableController {
         ModelAndView mav = new ModelAndView("templates/activities");
         List<HistoricActivityInstance> list = historyService.createHistoricActivityInstanceQuery().list();
         mav.addObject("activities", list);
+
         return mav;
     }
 
